@@ -155,6 +155,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     [self sharedView].font = font;
 }
 
++ (void)setTextColor:(UIColor*)color {
+    [self sharedView].textColor = color;
+}
+
 + (void)setForegroundColor:(UIColor*)color {
     [self sharedView].foregroundColor = color;
     [self setDefaultStyle:SVProgressHUDStyleCustom];
@@ -286,6 +290,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     [self showImage:[self sharedView].errorImage status:status];
 }
 
++ (void)showErrorWithStatus:(NSString*)status inView:(UIView*)contView {
+    [self setContainerView: contView];
+    [self showImage:[self sharedView].errorImage status:status];
+}
+
 + (void)showErrorWithStatus:(NSString*)status maskType:(SVProgressHUDMaskType)maskType {
     SVProgressHUDMaskType existingMaskType = [self sharedView].defaultMaskType;
     [self setDefaultMaskType:maskType];
@@ -364,6 +373,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         _backgroundColor = [UIColor clearColor];
         _foregroundColor = [UIColor blackColor];
         _backgroundLayerColor = [UIColor colorWithWhite:0 alpha:0.4];
+        _textColor = [UIColor blackColor];
         
         // Set default values
         _defaultMaskType = SVProgressHUDMaskTypeNone;
@@ -1310,7 +1320,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     }
     
     // Update styling
-    _statusLabel.textColor = self.foregroundColorForStyle;
+    _statusLabel.textColor = self.textColor;
     _statusLabel.font = self.font;
 
     return _statusLabel;
@@ -1412,6 +1422,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 
 - (void)setFont:(UIFont*)font {
     if (!_isInitializing) _font = font;
+}
+    
+- (void)setTextColor:(UIColor*)color {
+    if (!_isInitializing) _textColor = color;
 }
 
 - (void)setForegroundColor:(UIColor*)color {
