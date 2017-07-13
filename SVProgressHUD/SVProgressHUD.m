@@ -212,6 +212,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     [self showWithStatus:nil];
 }
 
++ (void)showInView:(UIView *)contView {
+    [self setContainerView: contView];
+    [self show];
+}
+
 + (void)showWithMaskType:(SVProgressHUDMaskType)maskType {
     SVProgressHUDMaskType existingMaskType = [self sharedView].defaultMaskType;
     [self setDefaultMaskType:maskType];
@@ -695,7 +700,8 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 - (void)moveToPoint:(CGPoint)newCenter rotateAngle:(CGFloat)angle {
     self.hudView.transform = CGAffineTransformMakeRotation(angle);
     if (self.containerView) {
-        self.hudView.center = self.containerView.center;
+        self.hudView.center = CGPointMake((self.containerView.bounds.size.width)/2 + self.offsetFromCenter.horizontal,
+                                          (self.containerView.bounds.size.height)/2 + self.offsetFromCenter.vertical);
     } else {
         self.hudView.center = CGPointMake(newCenter.x + self.offsetFromCenter.horizontal, newCenter.y + self.offsetFromCenter.vertical);
     }
