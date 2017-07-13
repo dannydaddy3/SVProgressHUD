@@ -978,7 +978,9 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
             // Define blocks
             __block void (^animationsBlock)(void) = ^{
                 // Shrink HUD a little to make a nice disappear animation
-                strongSelf.hudView.transform = CGAffineTransformScale(strongSelf.hudView.transform, 1/1.3f, 1/1.3f);
+                if (!strongSelf.isRoundBackground) {
+                    strongSelf.hudView.transform = CGAffineTransformScale(strongSelf.hudView.transform, 1/1.3f, 1/1.3f);
+                }
                 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
                 if(self.defaultStyle != SVProgressHUDStyleCustom){
