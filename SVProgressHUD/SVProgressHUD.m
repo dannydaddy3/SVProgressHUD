@@ -159,6 +159,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     [self sharedView].textColor = color;
 }
 
++ (void)setIsRoundBackground:(BOOL)isRound {
+    [self sharedView].isRoundBackground = isRound;
+}
+
 + (void)setForegroundColor:(UIColor*)color {
     [self sharedView].foregroundColor = color;
     [self setDefaultStyle:SVProgressHUDStyleCustom];
@@ -374,6 +378,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         _foregroundColor = [UIColor blackColor];
         _backgroundLayerColor = [UIColor colorWithWhite:0 alpha:0.4];
         _textColor = [UIColor blackColor];
+        _isRoundBackground = NO;
         
         // Set default values
         _defaultMaskType = SVProgressHUDMaskTypeNone;
@@ -1288,7 +1293,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     }
     
     // Update styling
-    _hudView.layer.cornerRadius = self.cornerRadius;
+    if (self.isRoundBackground) {
+        _hudView.layer.cornerRadius = _hudView.frame.size.height / 2;
+    } else {
+        _hudView.layer.cornerRadius = self.cornerRadius;
+    }
     _hudView.backgroundColor = self.backgroundColorForStyle;
     
     return _hudView;
@@ -1434,6 +1443,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     
 - (void)setTextColor:(UIColor*)color {
     if (!_isInitializing) _textColor = color;
+}
+    
+- (void)setIsRoundBackground:(BOOL)isRound {
+    if (!_isInitializing) _isRoundBackground = isRound;
 }
 
 - (void)setForegroundColor:(UIColor*)color {
