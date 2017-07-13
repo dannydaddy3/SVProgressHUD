@@ -529,6 +529,9 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     if(!self.controlView.superview) {
         if(self.containerView){
             [self.containerView addSubview:self.controlView];
+            
+            // Disable user interaction when hud appeared
+            self.containerView.userInteractionEnabled = NO;
         } else {
 #if !defined(SV_APP_EXTENSIONS)
             [self.frontWindow addSubview:self.controlView];
@@ -1030,6 +1033,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
                     }
                 }
             };
+                
+            // Enable user interaction after dismiss
+            if(strongSelf.containerView) {
+                strongSelf.containerView.userInteractionEnabled = YES;
+            }
                 
             // UIViewAnimationOptionBeginFromCurrentState AND a delay doesn't always work as expected
             // When UIViewAnimationOptionBeginFromCurrentState ist set, animateWithDuration: evaluates the current
